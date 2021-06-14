@@ -1,0 +1,10 @@
+--- /vcpkg/ports/libmupdf/CONTROL       2021-04-13 00:31:01.000000000 +0000
++++ /vcpkg/ports/libmupdf/CONTROL_      2021-04-13 00:42:40.805239545 +0000
+@@ -1,6 +1,6 @@
+ Source: libmupdf
+ Version: 1.18.0
+-Build-Depends: freetype, libjpeg-turbo, harfbuzz, zlib, curl, glfw3, openjpeg, jbig2dec, gumbo
++Build-Depends: freetype, libjpeg-turbo, harfbuzz, zlib, curl[core,openssl], glfw3, openjpeg, jbig2dec, gumbo
+ Homepage: https://github.com/ArtifexSoftware/mupdf
+ Description: a lightweight PDF, XPS, and E-book library
+ Supports: !osx
