@@ -1,5 +1,5 @@
---- /vcpkg/scripts/cmake/vcpkg_configure_meson.cmake
-+++ /vcpkg/scripts/cmake/vcpkg_configure_meson.cmake
+--- a/scripts/cmake/vcpkg_configure_meson.cmake
++++ b/scripts/cmake/vcpkg_configure_meson.cmake
 @@ -220,7 +220,7 @@ function(vcpkg_internal_meson_generate_cross_file _additional_binaries) #https:/
              OUTPUT_VARIABLE MACHINE
              COMMAND_ERROR_IS_FATAL ANY)

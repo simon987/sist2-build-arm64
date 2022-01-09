@@ -1,5 +1,5 @@
---- /vcpkg/ports/mongoose/portfile.cmake
-+++ /vcpkg/ports/mongoose/portfile.cmake
+--- a/ports/mongoose/portfile.cmake
++++ b/ports/mongoose/portfile.cmake
 @@ -5,8 +5,8 @@ vcpkg_check_linkage(ONLY_STATIC_LIBRARY)
  vcpkg_from_github(
      OUT_SOURCE_PATH SOURCE_PATH
