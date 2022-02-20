@@ -30,6 +30,7 @@ RUN cd vcpkg && ./bootstrap-vcpkg.sh
 ADD patches/* /
 RUN cd /vcpkg; patch -p1 < ../mupdf-curl-dep.patch
 RUN cd /vcpkg; patch -p1 < ../mongoose-master.patch
+RUN cd /vcpkg; patch -p1 < ../mongoose-nolog.patch
 RUN cd /vcpkg; patch -p1 < ../libraw.patch
 
 RUN VCPKG_FORCE_SYSTEM_BINARIES=true ./vcpkg/vcpkg install \
