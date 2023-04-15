@@ -1,47 +1,31 @@
-FROM --platform="linux/arm64/v8" ubuntu:20.04
+FROM --platform=linux/arm64/v8 debian@sha256:55cd39723a057f730e9c33487fea9fe151bbe86dce51e92a73ccfd12206a1f43
 
 MAINTAINER simon987 <me@simon987.net>
+
 
 RUN apt update
 
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y pkg-config python3 python3-pip \
 	yasm ragel automake autotools-dev wget libtool libssl-dev \
         curl zip unzip tar xorg-dev libglu1-mesa-dev libxcursor-dev \
-        libxml2-dev libxinerama-dev libcurl4-openssl-dev gettext \
-        gcc g++ git make bison \
+        libxml2-dev libxinerama-dev libcurl4-openssl-dev gettext nasm \
+        gcc g++ git make bison ninja-build \
         && apt clean
-
-# cmake
-RUN curl -L https://github.com/Kitware/CMake/releases/download/v3.22.1/cmake-3.22.1-linux-aarch64.tar.gz | tar -xzf - --strip-components=1 -C /usr/
-
-# Ninja
-RUN git clone git://github.com/ninja-build/ninja.git && \
-	cd ninja && git checkout release && \
-	cmake -Bbuild-cmake -H. && cmake --build build-cmake && \
-	mv build-cmake/ninja /usr/bin/ && rm -rf /ninja/
 
 # Meson
 RUN python3 -m pip install meson
 
-# vcpkg
-RUN git clone https://github.com/microsoft/vcpkg.git && cd vcpkg && git checkout 16c865ef9805b886ebae97964d45b3b52598aab7 
-RUN cd vcpkg && ./bootstrap-vcpkg.sh
+# cmake
+RUN curl -L https://github.com/Kitware/CMake/releases/download/v3.26.3/cmake-3.26.3-linux-aarch64.tar.gz | tar -xzf - --strip-components=1 -C /usr/
 
-ADD patches/* /
-RUN cd /vcpkg; patch -p1 < ../mupdf-curl-dep.patch
-RUN cd /vcpkg; patch -p1 < ../mongoose-master.patch
-RUN cd /vcpkg; patch -p1 < ../mongoose-nolog.patch
-RUN cd /vcpkg; patch -p1 < ../libraw.patch
+# vcpkg
+RUN git clone --depth 1 https://github.com/simon987/vcpkg.git && cd vcpkg
+RUN cd /vcpkg/ && ./bootstrap-vcpkg.sh
 
 RUN VCPKG_FORCE_SYSTEM_BINARIES=true ./vcpkg/vcpkg install \
-        curl[core,openssl] \
+        curl[core,openssl] sqlite3 cpp-jwt pcre cjson brotli libarchive[core,bzip2,libxml2,lz4,lzma,lzo] pthread tesseract libxml2 libmupdf gtest mongoose libmagic libraw gumbo ffmpeg[core,avcodec,avformat,swscale,swresample] \
         && rm -rf /root/.cache/vcpkg /vcpkg/downloads /vcpkg/buildtrees /vcpkg/downloads
 
-RUN  mkdir /vcpkg/downloads; VCPKG_FORCE_SYSTEM_BINARIES=true ./vcpkg/vcpkg install \
-      lmdb cjson glib brotli libarchive[core,bzip2,libxml2,lz4,lzma,lzo] pthread tesseract libxml2 libmupdf gtest mongoose libuuid libmagic libraw jasper lcms gumbo \
-       && rm -rf /root/.cache/vcpkg /vcpkg/downloads /vcpkg/buildtrees /vcpkg/downloads
+COPY patches/* ./
+RUN cd /vcpkg/ && patch -p1 < /fix-libraw.patch
 
-RUN mkdir -p /debug/lib/ && mkdir -p /include && \
- cp -r /vcpkg/installed/arm64-linux/include/cjson/ /include/ && \
- cp /vcpkg/installed/arm64-linux/debug/lib/libcjson.a /debug/lib/ && \
- cp /vcpkg/installed/arm64-linux/lib/libcjson.a /lib/
