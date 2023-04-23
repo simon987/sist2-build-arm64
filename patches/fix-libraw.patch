@@ -1,0 +1,19 @@
+--- b/installed/arm64-linux/share/libraw/librawTargets.cmake
++++ a/installed/arm64-linux/share/libraw/librawTargets.cmake
+@@ -60,7 +60,7 @@
+ 
+ set_target_properties(libraw::raw PROPERTIES
+   INTERFACE_COMPILE_DEFINITIONS "LIBRAW_NODLL"
++  INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include/libraw"
+-  INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/libraw"
+   INTERFACE_LINK_LIBRARIES "m;lcms2::lcms2;ZLIB::ZLIB;\$<\$<NOT:\$<CONFIG:DEBUG>>:${VCPKG_IMPORT_PREFIX}/lib/libjasper.a>;\$<\$<CONFIG:DEBUG>:${VCPKG_IMPORT_PREFIX}/debug/lib/libjasperd.a>;\$<\$<NOT:\$<CONFIG:DEBUG>>:${VCPKG_IMPORT_PREFIX}/lib/libjpeg.a>;\$<\$<CONFIG:DEBUG>:${VCPKG_IMPORT_PREFIX}/debug/lib/libjpeg.a>"
+ )
+ 
+@@ -69,7 +69,7 @@
+ 
+ set_target_properties(libraw::raw_r PROPERTIES
+   INTERFACE_COMPILE_DEFINITIONS "LIBRAW_NODLL"
++  INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include/libraw"
+-  INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/libraw"
+   INTERFACE_LINK_LIBRARIES "m;lcms2::lcms2;ZLIB::ZLIB;\$<\$<NOT:\$<CONFIG:DEBUG>>:${VCPKG_IMPORT_PREFIX}/lib/libjasper.a>;\$<\$<CONFIG:DEBUG>:${VCPKG_IMPORT_PREFIX}/debug/lib/libjasperd.a>;\$<\$<NOT:\$<CONFIG:DEBUG>>:${VCPKG_IMPORT_PREFIX}/lib/libjpeg.a>;\$<\$<CONFIG:DEBUG>:${VCPKG_IMPORT_PREFIX}/debug/lib/libjpeg.a>"
+ )

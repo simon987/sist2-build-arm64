@@ -23,7 +23,7 @@ RUN git clone --depth 1 https://github.com/simon987/vcpkg.git && cd vcpkg
 RUN cd /vcpkg/ && ./bootstrap-vcpkg.sh
 
 RUN VCPKG_FORCE_SYSTEM_BINARIES=true ./vcpkg/vcpkg install \
-        curl[core,openssl] sqlite3 cpp-jwt pcre cjson brotli libarchive[core,bzip2,libxml2,lz4,lzma,lzo] pthread tesseract libxml2 libmupdf gtest mongoose libmagic libraw gumbo ffmpeg[core,avcodec,avformat,swscale,swresample] \
+        curl[core,openssl] sqlite3 cpp-jwt pcre cjson brotli libarchive[core,bzip2,libxml2,lz4,lzma,lzo] pthread tesseract libxml2 libmupdf gtest mongoose libraw gumbo ffmpeg[core,avcodec,avformat,swscale,swresample] \
         && rm -rf /root/.cache/vcpkg /vcpkg/downloads /vcpkg/buildtrees /vcpkg/downloads
 
 COPY patches/* ./
